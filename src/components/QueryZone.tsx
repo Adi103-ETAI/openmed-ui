@@ -51,7 +51,7 @@ const QueryZone = ({ onSubmit, isLoading, hasResults }: QueryZoneProps) => {
               <span className="hidden sm:inline">Searching…</span>
             </>
           ) : (
-            "Ask OpenMed"
+            <Search className="w-5 h-5" />
           )}
         </button>
       </div>

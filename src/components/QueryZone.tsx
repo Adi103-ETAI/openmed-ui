@@ -26,7 +26,10 @@ const QueryZone = ({ onSubmit, isLoading, hasResults }: QueryZoneProps) => {
 
   return (
     <div className="w-full max-w-[760px] mx-auto px-4 sm:px-8 pt-10 pb-6">
-      <h1 className="text-[28px] font-bold text-foreground text-center mb-4">Medical Knowledge Platform</h1>
+      <div className="text-center mb-4">
+        <h1 className="text-[32px] font-bold text-primary">OpenMed</h1>
+        <p className="text-[16px] font-normal text-muted-foreground mt-1">Medical Knowledge Platform</p>
+      </div>
       <div className="flex">
         <input
           ref={inputRef}

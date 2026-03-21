@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Search } from "lucide-react";
 
 const EXAMPLES = [
   "Treatment for drug-resistant TB in adults",
@@ -26,7 +26,10 @@ const QueryZone = ({ onSubmit, isLoading, hasResults }: QueryZoneProps) => {
 
   return (
     <div className="w-full max-w-[760px] mx-auto px-4 sm:px-8 pt-10 pb-6">
-      <h1 className="text-[28px] font-bold text-foreground text-center mb-4">Medical Knowledge Platform</h1>
+      <div className="text-center mb-4">
+        <h1 className="text-[32px] font-bold text-primary">OpenMed</h1>
+        <p className="text-[16px] font-normal text-muted-foreground mt-1">Medical Knowledge Platform</p>
+      </div>
       <div className="flex">
         <input
           ref={inputRef}
@@ -48,7 +51,7 @@ const QueryZone = ({ onSubmit, isLoading, hasResults }: QueryZoneProps) => {
               <span className="hidden sm:inline">Searching…</span>
             </>
           ) : (
-            "Ask OpenMed"
+            <Search className="w-5 h-5" />
           )}
         </button>
       </div>

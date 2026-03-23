@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,48 +6,43 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    --background: 210 10% 8%; /* #121416 */
+    --foreground: 240 5% 89%; /* #e2e2e5 */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card: 210 7% 11%;       /* #1a1c1e surface-container-low */
+    --card-foreground: 240 5% 89%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 210 5% 15%;    /* #282a2c surface-container-high */
+    --popover-foreground: 240 5% 89%;
 
-    --primary: 173 78% 26%;
-    --primary-foreground: 0 0% 100%;
-    --primary-hover: 174 68% 32%;
-    --primary-light: 166 76% 93%;
-    --primary-dark: 176 59% 18%;
+    --primary: 221 100% 84%;  /* #adc7ff */
+    --primary-foreground: 213 100% 20%; /* #002e68 */
+    --primary-hover: 216 100% 64%; /* #4a8eff primary-container */
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 191 100% 50%; /* #00d2ff */
+    --secondary-foreground: 194 100% 8%; /* #001f28 */
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 210 5% 20%; /* #333537 */
+    --muted-foreground: 226 14% 80%; /* #c1c6d7 */
 
-    --accent: 210 40% 96%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 210 5% 15%;
+    --accent-foreground: 240 5% 89%;
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 3 100% 82%; /* #ffb4ab */
+    --destructive-foreground: 3 100% 20%; /* #690005 */
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 173 78% 26%;
+    --border: 220 7% 30%; /* #414754 */
+    --input: 220 7% 30%;
+    --ring: 221 100% 84%; /* #adc7ff */
 
     --radius: 0.75rem;
 
-    --text-primary: 222 47% 11%;
-    --text-secondary: 215 25% 34%;
-    --text-muted: 215 16% 62%;
-
-    --pubmed: 224 73% 42%;
-    --pubmed-foreground: 0 0% 100%;
-
     --success: 142 64% 40%;
-    --warning: 38 92% 50%;
+    --warning: 23 88% 60%; /* #ef6719 */
+  }
+
+  .dark {
+    /* Hardcoded dark mode since the application is strictly dark themed per design system */
   }
 }
 
@@ -57,11 +52,12 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground antialiased;
     font-family: 'Inter', system-ui, sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
+    font-family: 'Manrope', system-ui, sans-serif;
     @apply font-semibold tracking-tight;
   }
 }
@@ -69,6 +65,12 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .glassmorphism {
+    @apply bg-muted/60 backdrop-blur-xl border border-border/30 shadow-[0_20px_40px_rgba(0,0,0,0.4)];
+  }
+  .gradient-primary {
+    @apply bg-gradient-to-br from-[#adc7ff] to-[#4a8eff] text-[#002e68];
   }
 }
 
@@ -97,7 +99,7 @@
 }
 
 .skeleton-shimmer {
-  background: linear-gradient(90deg, hsl(210 40% 96%) 25%, hsl(210 40% 92%) 50%, hsl(210 40% 96%) 75%);
+  background: linear-gradient(90deg, hsl(210 7% 15%) 25%, hsl(210 7% 20%) 50%, hsl(210 7% 15%) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }

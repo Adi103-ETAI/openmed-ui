@@ -1,5 +1,5 @@
-import { useState, useRef } from "react";
-import { Loader2, Search } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Loader2, Search, ArrowUp } from "lucide-react";
 
 const EXAMPLES = [
   "Treatment for drug-resistant TB in adults",
@@ -13,57 +13,75 @@ interface QueryZoneProps {
   hasResults: boolean;
 }
 
+const getGreeting = () => {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good Morning, Director";
+  if (hour < 18) return "Good Afternoon, Director";
+  return "Good Evening, Director";
+};
+
 const QueryZone = ({ onSubmit, isLoading, hasResults }: QueryZoneProps) => {
   const [query, setQuery] = useState("");
+  const [greeting, setGreeting] = useState(getGreeting());
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const interval = setInterval(() => setGreeting(getGreeting()), 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSubmit = (q?: string) => {
     const finalQuery = (q ?? query).trim();
     if (!finalQuery || isLoading) return;
     if (q) setQuery(q);
     onSubmit(finalQuery);
+    if (!q) setQuery(""); // Clear input on manual submit
   };
 
   return (
-    <div className="w-full max-w-[760px] mx-auto px-4 sm:px-8 pt-10 pb-6">
-      <div className="text-center mb-4">
-        <h1 className="text-[32px] font-bold"><span className="text-primary">Open</span><span className="text-foreground">Med</span></h1>
-        <p className="text-[16px] font-normal text-muted-foreground mt-1">Medical Knowledge Platform</p>
-      </div>
-      <div className="flex">
+    <div className={`w-full max-w-[760px] mx-auto px-4 sm:px-8 ${hasResults ? "" : "pt-10 pb-6"}`}>
+      {!hasResults && (
+        <div className="text-center mb-8 animate-fade-up">
+          <div className="w-16 h-16 bg-gradient-primary rounded-2xl mx-auto flex items-center justify-center mb-6 shadow-lg shadow-primary/20">
+            <span className="text-2xl">🩺</span>
+          </div>
+          <h1 className="text-[40px] font-heading font-bold tracking-tight"><span className="text-primary">Open</span><span className="text-foreground">Insight</span></h1>
+          <p className="text-[16px] font-medium text-muted-foreground mt-2">{greeting}</p>
+        </div>
+      )}
+      <div className={`flex relative items-center transition-all ${hasResults ? 'glassmorphism rounded-full px-2 py-2 border border-border/50 shadow-md' : ''}`}>
+        <div className="absolute left-6 text-muted-foreground/50">
+          <Search className="w-5 h-5" />
+        </div>
         <input
           ref={inputRef}
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-          placeholder="Ask a medical question..."
-          className="flex-1 h-14 px-5 text-base border-[1.5px] border-border border-r-0 rounded-l-xl bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all overflow-hidden"
+          placeholder="Ask a medical question, or follow up..."
+          className={`flex-1 h-16 pl-14 pr-4 text-[15px] bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none transition-all ${!hasResults ? 'border border-border/50 rounded-full focus:border-primary/50 focus:ring-4 focus:ring-primary/10 bg-surface-container-low shadow-sm' : ''}`}
         />
         <button
           onClick={() => handleSubmit()}
           disabled={isLoading || !query.trim()}
-          className="h-14 px-5 sm:px-6 bg-primary text-primary-foreground font-semibold text-sm rounded-r-xl hover:bg-primary-hover active:scale-[0.97] transition-all disabled:opacity-50 disabled:pointer-events-none flex items-center gap-2 whitespace-nowrap"
+          className={`shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-primary text-primary-foreground transition-all disabled:opacity-50 disabled:pointer-events-none ${!hasResults ? 'absolute right-2 shadow-sm' : 'hover:scale-105 active:scale-95'}`}
         >
           {isLoading ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin-slow" />
-              <span className="hidden sm:inline">Searching…</span>
-            </>
+            <Loader2 className="w-5 h-5 animate-spin-slow" />
           ) : (
-            <Search className="w-5 h-5" />
+            <ArrowUp className="w-5 h-5" />
           )}
         </button>
       </div>
 
-
       {!hasResults && (
-        <div className="flex flex-wrap gap-2 mt-4">
+        <div className="flex flex-wrap justify-center gap-2 mt-8 animate-fade-up" style={{ animationDelay: '0.1s' }}>
           {EXAMPLES.map((ex) => (
             <button
               key={ex}
               onClick={() => handleSubmit(ex)}
-              className="text-xs bg-primary-light text-primary px-3 py-1.5 rounded-full hover:bg-primary/10 active:scale-[0.97] transition-all"
+              className="text-[13px] font-medium bg-surface-container-high border border-border/50 text-foreground px-4 py-2 rounded-full hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-all shadow-sm"
             >
               {ex}
             </button>

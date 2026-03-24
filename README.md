@@ -1,2 +1,2 @@
-# OpenMed UI
+# OpenInsight UI
 
